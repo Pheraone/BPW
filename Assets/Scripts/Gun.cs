@@ -5,6 +5,7 @@ using UnityEngine;
 public class Gun : MonoBehaviour
 {
     public GameObject BulletPrefab;
+    public float speed = 100f;
 
     // Start is called before the first frame update
     void Start()
@@ -17,6 +18,9 @@ public class Gun : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
+            GameObject instBullet = Instantiate(BulletPrefab, transform.position, Quaternion.identity) as GameObject;
+            Rigidbody instBulletRigidbody = instBullet.GetComponent<Rigidbody>();
+            instBulletRigidbody.AddForce(transform.forward * speed);
             Debug.Log("fire");
         }
     }
