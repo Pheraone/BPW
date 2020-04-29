@@ -471,7 +471,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mouseXInput: Mouse X
   mouseYInput: Mouse Y
-  mouseSensitivity: 150
+  mouseSensitivity: 214.6
   playerBody: {fileID: 2126521606}
 --- !u!20 &1163292603
 Camera:
@@ -640,6 +640,9 @@ MonoBehaviour:
   horizontalInputName: Horizontal
   verticalInputName: Vertical
   movementSpeed: 6
+  superSpeed: 10
+  normalSpeed: 6
+  sprintKey: 304
   jumpFallOff:
     serializedVersion: 2
     m_Curve:

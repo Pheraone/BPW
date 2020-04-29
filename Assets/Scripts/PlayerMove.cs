@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
@@ -7,6 +8,10 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private string horizontalInputName;
     [SerializeField] private string verticalInputName;
     [SerializeField] private float movementSpeed;
+    [SerializeField] private float superSpeed;
+    [SerializeField] private float normalSpeed;
+    [SerializeField] private KeyCode sprintKey;
+
 
     private CharacterController charController;
 
@@ -16,6 +21,7 @@ public class PlayerMove : MonoBehaviour
 
 
     private bool isJumping;
+    private bool isSprinting;
 
     private void Awake()
     {
@@ -38,6 +44,47 @@ public class PlayerMove : MonoBehaviour
         charController.SimpleMove(forwardMovement + rightMovement);
 
         JumpInput();
+        SprintInput();
+    }
+
+    private void SprintInput()
+    {
+        // Try 1
+          if(Input.GetKeyDown(sprintKey) && !isSprinting)
+          {
+              isSprinting = false;
+              StartCoroutine(SprintEvent());
+          }
+          else if (Input.GetKeyDown(sprintKey) && isSprinting)
+          {
+              isSprinting = true;
+              StartCoroutine(SprintEvent());
+          } 
+
+       /* if (Input.GetKeyDown(sprintKey))
+        {
+            isSprinting = !isSprinting;
+            StartCoroutine(SprintEvent());
+        }*/
+    }
+
+    private IEnumerator SprintEvent()
+    {
+       if(isSprinting == false)
+        {
+            movementSpeed = superSpeed;
+            isSprinting = true;
+            Debug.Log("I am Running");
+            
+        }
+        else
+        {
+            movementSpeed = normalSpeed;
+            isSprinting = false;
+            Debug.Log("I am walking");
+            
+        }
+        yield return isSprinting;
     }
 
     private void JumpInput()
