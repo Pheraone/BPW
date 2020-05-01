@@ -5,16 +5,18 @@ using UnityEngine;
 public class Gun : MonoBehaviour
 {
     public GameObject BulletPrefab;
-    public float speed = 100f;
+    [SerializeField] public float speed;
+
+    
 
     // Start is called before the first frame update
     void Start()
     {
-      
+       
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         if (Input.GetMouseButtonDown(0))
         {
@@ -22,6 +24,8 @@ public class Gun : MonoBehaviour
             Rigidbody instBulletRigidbody = instBullet.GetComponent<Rigidbody>();
             instBulletRigidbody.AddForce(transform.forward * speed);
             Debug.Log("fire");
+            
         }
+      
     }
 }

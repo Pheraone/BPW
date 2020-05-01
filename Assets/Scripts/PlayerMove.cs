@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
@@ -21,7 +22,7 @@ public class PlayerMove : MonoBehaviour
 
 
     private bool isJumping;
-    private bool isSprinting;
+    private bool isSprinting = false;
 
     private void Awake()
     {
@@ -50,6 +51,7 @@ public class PlayerMove : MonoBehaviour
     private void SprintInput()
     {
         // Try 1
+     
           if(Input.GetKeyDown(sprintKey) && !isSprinting)
           {
               isSprinting = false;
@@ -59,13 +61,15 @@ public class PlayerMove : MonoBehaviour
           {
               isSprinting = true;
               StartCoroutine(SprintEvent());
-          } 
+          }
 
-       /* if (Input.GetKeyDown(sprintKey))
-        {
-            isSprinting = !isSprinting;
-            StartCoroutine(SprintEvent());
-        }*/
+         /*
+           if (Input.GetKeyDown(sprintKey))
+            {
+                isSprinting = !isSprinting;
+                StartCoroutine(SprintEvent());
+                Debug.Log(isSprinting);
+            } */
     }
 
     private IEnumerator SprintEvent()
