@@ -1,18 +1,25 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Gun : MonoBehaviour
 {
     public GameObject BulletPrefab;
+    public GameObject instBullet;
     [SerializeField] public float speed;
+  
+    //[SerializeField] public int damage;
 
     
 
     // Start is called before the first frame update
     void Start()
     {
-       
+        Destroy(instBullet , 10f);
+        Debug.Log("yeet");
+      
+        
     }
 
     // Update is called once per frame
@@ -26,6 +33,13 @@ public class Gun : MonoBehaviour
             Debug.Log("fire");
             
         }
+
+        
       
+      
+    }
+    void OnCollisionEnter(Collision collision)
+    {
+        Destroy(instBullet);
     }
 }
