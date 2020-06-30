@@ -25,22 +25,7 @@ public class GameManager : MonoBehaviour
     [Header("UI objects")]
     [SerializeField] internal GameObject mainMenuObject;
     [SerializeField] internal GameObject pauseObject;
-    [SerializeField] internal TextMeshProUGUI animalCounterText;
-    [SerializeField] internal TextMeshProUGUI timeInPlayText;
-
-    [Header("Other scene references")]
-    [SerializeField] internal CameraController controller;
-    [SerializeField] internal SpawnerOverTimeGroup pathNodeSpawner;
-    [SerializeField] internal Transform floor;
-
-    [Header("Prefabs")]
-    // ref to blood partical, used by animals
-    [SerializeField] internal GameObject bloodParticle;
-
- 
-
-    // references to all flowers acting as nodes for paths
-    internal List<GameObject> pathNodes;
+    
 
     // state machine
     internal GameFSM fsm;
@@ -63,33 +48,15 @@ public class GameManager : MonoBehaviour
         fsm.UpdateState();
     }
 
-    public Vector3 GetRandomDestination()
-    {
-        if (pathNodes.Count <= 0)
-            return Vector3.zero;
-
-        int randomIndex = Random.Range(0, pathNodes.Count);
-        return pathNodes[randomIndex].transform.position;
-    }
 
     public void StartLevel()
     {
-        ((PlayState)fsm.GetState(GameStateType.Play)).totalTimeInPlay = 0;
-
-        spawners.ForEach(s => s.StartLevel());
+        
     }
 
     public void EndLevel()
     {
-        spawners.ForEach(s => s.EndLevel());
-
-        while (animals.Count > 0)
-            animals[0].Destroy();
-        while (pathNodes.Count > 0)
-        {
-            Destroy(pathNodes[0]);
-            pathNodes.RemoveAt(0);
-        }
+        
     }
 
     #region GOTO_STATE
