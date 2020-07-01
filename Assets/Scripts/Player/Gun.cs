@@ -16,8 +16,7 @@ public class Gun : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Destroy(instBullet , 10f);
-        Debug.Log("yeet");
+        
       
         
     }
@@ -40,6 +39,6 @@ public class Gun : MonoBehaviour
     }
     void OnCollisionEnter(Collision collision)
     {
-        Destroy(instBullet);
+
     }
 }
