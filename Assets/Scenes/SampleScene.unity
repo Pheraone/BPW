@@ -1427,7 +1427,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1116129461}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1475,7 +1475,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1116129461}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -14.599998, y: 0.88, z: 19.900002}
+  m_LocalPosition: {x: -14.599998, y: 1.05, z: 19.900002}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2051273833}
@@ -1805,9 +1805,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BulletPrefab: {fileID: 5715116651898549974, guid: 268bbf4af0102924784d51502df7711e,
     type: 3}
-  instBullet: {fileID: 5715116651898549974, guid: 268bbf4af0102924784d51502df7711e,
-    type: 3}
-  speed: 312.05
+  speed: 152.61
 --- !u!65 &1595302085
 BoxCollider:
   m_ObjectHideFlags: 0

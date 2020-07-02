@@ -1,44 +1,51 @@
-﻿
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlatformGun : MonoBehaviour
 {
+    private bool isShot = false;
+    GameObject instBullet;
     public GameObject BulletPrefab;
-    public GameObject instBullet;
-    [SerializeField] public float speed;
-  
-    //[SerializeField] public int damage;
-
-    
+    Rigidbody instBulletRigidbody;
+    [SerializeField] float speed;
 
     // Start is called before the first frame update
     void Start()
     {
-        
-      
         
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+       if (Input.GetMouseButtonDown(0)/* && isShot*/)
         {
-            GameObject instBullet = Instantiate(BulletPrefab, transform.position, Quaternion.identity) as GameObject;
-            Rigidbody instBulletRigidbody = instBullet.GetComponent<Rigidbody>();
-            instBulletRigidbody.AddForce(transform.forward * speed);
-            Debug.Log("fire");
-            
+            Debug.Log("shoot");
+            Shoot();
+            isShot = !isShot;
         }
 
-        
-      
-      
+       if (Input.GetMouseButtonDown(1) /*&& !isShot*/)
+        {
+            Stop();
+            isShot = !isShot;
+        }
     }
-    void OnCollisionEnter(Collision collision)
+
+    void Shoot()
+    {
+        GameObject instBullet = Instantiate(BulletPrefab, transform.position, Quaternion.identity) as GameObject;
+        instBulletRigidbody = instBullet.GetComponent<Rigidbody>();
+        instBulletRigidbody.AddForce(transform.forward * speed);
+        Debug.Log("fire");
+        Debug.Log(speed);
+    }
+
+    void Stop()
     {
 
+        instBulletRigidbody.velocity = Vector3.zero;
+        instBulletRigidbody.angularVelocity = Vector3.zero;
     }
 }
