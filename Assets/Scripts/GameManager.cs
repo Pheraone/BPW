@@ -25,7 +25,8 @@ public class GameManager : MonoBehaviour
     [Header("UI objects")]
     [SerializeField] internal GameObject mainMenuObject;
     [SerializeField] internal GameObject pauseObject;
-    
+    [SerializeField] internal GameObject inGameUI;
+    [SerializeField] internal GameObject gun;
 
     // state machine
     internal GameFSM fsm;
@@ -59,7 +60,6 @@ public class GameManager : MonoBehaviour
         
     }
 
-    #region GOTO_STATE
     public void GotoMainMenu()
     {
         fsm.GotoState(GameStateType.MainMenu);
@@ -75,5 +75,5 @@ public class GameManager : MonoBehaviour
     {
         fsm.GotoState(GameStateType.Pause);
     }
-    #endregion
+   
 }

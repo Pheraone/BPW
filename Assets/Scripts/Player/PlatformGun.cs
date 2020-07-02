@@ -22,7 +22,7 @@ public class PlatformGun : MonoBehaviour
     }
 
     // Update is called once per frame
-    void LateUpdate()
+    void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
