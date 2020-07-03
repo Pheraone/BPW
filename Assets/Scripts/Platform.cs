@@ -21,19 +21,11 @@ public class Platform : MonoBehaviour
 
     private void Update()
     {
-        if(frozen == true)
+        if (frozen == true)
         {
             platformRB.gameObject.layer = LayerMask.NameToLayer("Default");
             Debug.Log("frozen is " + frozen);
-        }
-        else
-        {
-            platformRB.gameObject.layer = LayerMask.NameToLayer("Bullet");
-            Debug.Log("frozen is "+ frozen);
-        }
 
-        if (frozen == true)
-        {
             lifeTimer -= Time.deltaTime;
 
             if (lifeTimer <= 0f)
@@ -42,6 +34,16 @@ public class Platform : MonoBehaviour
                 Destroy(gameObject);
             }
         }
+        else
+        {
+            platformRB.gameObject.layer = LayerMask.NameToLayer("Bullet");
+            Debug.Log("frozen is " + frozen);
+        }
+
+     
+       
+            
+     
     }
 
     void OnCollisionEnter(Collision collision)
