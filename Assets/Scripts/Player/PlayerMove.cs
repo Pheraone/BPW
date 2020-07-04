@@ -17,6 +17,7 @@ public class PlayerMove : MonoBehaviour
     private CharacterController charController;
 
     [SerializeField] private AnimationCurve jumpFallOff;
+    private float timeInAir = 0.5f;
     [SerializeField] private float jumpMultiplier;
     [SerializeField] private KeyCode jumpKey;
 
@@ -102,8 +103,9 @@ public class PlayerMove : MonoBehaviour
 
     private IEnumerator JumpEvent()
     {
+        Debug.Log("I am jumping");  
         charController.slopeLimit = 90.0f;
-        float timeInAir = 0.0f;
+        
         do
         {
             float jumpForce = jumpFallOff.Evaluate(timeInAir);

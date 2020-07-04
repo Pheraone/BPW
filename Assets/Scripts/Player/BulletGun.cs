@@ -12,32 +12,38 @@ public class BulletGun : MonoBehaviour
     public float fireRate;
     private float nextFire;
 
+
     // Update is called once per frame
+    private void Start()
+    {
+
+    }
     void Update()
     {
-        if(Input.GetMouseButtonDown(0) && Time.time > nextFire)
+        if (Input.GetMouseButtonDown(0) && Time.time > nextFire)
         {
             nextFire = Time.time + fireRate;
             Shoot();
+
         }
-    }
 
-    void Shoot()
-    {
-        RaycastHit hit;
-        if(Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, range))
+        void Shoot()
         {
-            targetHealth target = hit.transform.GetComponent<targetHealth>();
+            RaycastHit hit;
+            if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, range))
+            {
+                targetHealth target = hit.transform.GetComponent<targetHealth>();
 
-            if(target != null)
-            {
-                target.TakeDamage(damage);
-            } 
-            if (hit.rigidbody != null)
-            {
-                hit.rigidbody.AddForce(-hit.normal* impactForce);
+                if (target != null)
+                {
+                    target.TakeDamage(damage);
+                }
+                if (hit.rigidbody != null)
+                {
+                    hit.rigidbody.AddForce(-hit.normal * impactForce);
+                }
             }
         }
-    }
 
+    }
 }

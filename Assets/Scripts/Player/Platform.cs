@@ -10,6 +10,7 @@ public class Platform : MonoBehaviour
     [SerializeField] GameObject Player;
     public float lifeTime = 5f;
     private float lifeTimer;
+    public bool mustBeDestroyed = false;
 
     void Start()
     {
@@ -21,48 +22,43 @@ public class Platform : MonoBehaviour
 
     private void Update()
     {
+        //if the platform is not moving
         if (frozen == true)
         {
+            //set the layer to default
             platformRB.gameObject.layer = LayerMask.NameToLayer("Default");
-            Debug.Log("frozen is " + frozen);
-
+           
+            //lifetimer -1 every second
             lifeTimer -= Time.deltaTime;
 
+            //checking if the timer is 0 or below
             if (lifeTimer <= 0f)
             {
-                Debug.Log("I am doing something " + lifeTime);
+               //destroying platform
                 Destroy(gameObject);
-            }
+                
+            } 
         }
         else
         {
+            //if platform is moving the layer will still be bullet
             platformRB.gameObject.layer = LayerMask.NameToLayer("Bullet");
-            Debug.Log("frozen is " + frozen);
         }
-
-     
-       
-            
-     
     }
 
     void OnCollisionEnter(Collision collision)
     {
 
 
-        Debug.Log("hit");
+        //stop platform from moving
         platformRB.velocity = Vector3.zero;
         platformRB.angularVelocity = Vector3.zero;
         platformRB.constraints = RigidbodyConstraints.FreezePosition;
+        //setting is shot to false, player cannot stop a platform that already has stopped
         gun.isShot = false;
+        //setting frozen to true/ platform has stopped
         frozen = true;
-        Debug.Log(frozen);
-        Debug.Log(collision.gameObject);
-        /* if (Collision collision.gameObject.tag == "Player")
-         {
-             Debug.Log("oof");
-             Physics.IgnoreCollision(collision.gameObject.GetComponent<CapsuleCollider>(), platformRB.GetComponent<SphereCollider>());
-         }*/
+       
 
     }
 
