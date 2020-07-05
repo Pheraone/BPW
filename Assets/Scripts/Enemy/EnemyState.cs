@@ -37,20 +37,18 @@ public class IdleState : EnemyState
         //check distance
         if (Vector3.Distance(enemy.transform.position, PlayerMove.Instance.transform.position) < 10)
         {
+            //if distance player to enemy is below, change speed, change state
             enemy.navMeshAgent.speed = 1.5f;
-            Debug.Log("Hoi");
             enemy.GotoChase();
         }
-        //enemy.gotochase
-        //Debug.Log("navmesh pos "+ enemy.navMeshAgent.transform.position);
-              //Debug.Log("final pos " + enemy.finalPosition);
-        
-            if (CheckDestinationReached())
-            {
-            Debug.Log("I am here!");
+ 
+        if (CheckDestinationReached())
+        {
+          //checking if destination was reached
+          //Walk -> set destination
                 Walk();
                 
-            }
+        }
         
 
 
@@ -63,19 +61,21 @@ public class IdleState : EnemyState
 
     void Walk()
     {
+        //getting an area in a sphere
         Vector3 randomDirection = Random.insideUnitSphere * enemy.walkRadius;
         randomDirection += enemy.transform.position;
         NavMeshHit hit;
+        //get a random navmesh position in the sphere
         NavMesh.SamplePosition(randomDirection, out hit, enemy.walkRadius, 1);
-        //Debug.Log("hit is " +  hit);
         enemy.finalPosition = hit.position;
         enemy.navMeshAgent.SetDestination(enemy.finalPosition);
-        //Debug.Log("final position is " + enemy.finalPosition);
+        //setting vector3 y to 1, for if not points would not be the same
         enemy.finalPosition.y = 1f;
     }
     
     bool CheckDestinationReached()
     {
+        //checking distance to final pos
         float distanceToTarget = Vector3.Distance(enemy.transform.position, enemy.finalPosition);
         if (distanceToTarget < 2f)
         {
@@ -90,20 +90,19 @@ public class IdleState : EnemyState
 {
     public override void Enter()
     {
-        Debug.Log("I am in the chaseState");
         enemy.navMeshAgent.speed = 2f;
-       
-        
     }
+
     public override void Update()
     {
+        //if distance player to enemy is below, change speed, change state
         enemy.navMeshAgent.SetDestination(PlayerMove.Instance.transform.position);
         if (Vector3.Distance(enemy.transform.position, PlayerMove.Instance.transform.position) > 10)
         {
-            Debug.Log("Doei");
             enemy.GotoIdle();
         }
 
+        //if distance player to enemy is below, change speed, change state
         if (Vector3.Distance(enemy.transform.position, PlayerMove.Instance.transform.position) < 5)
         {
             enemy.GotoAttack();
@@ -123,15 +122,16 @@ public class AttackState : EnemyState
     float time = 5f;
     public override void Enter()
     {
+        //setting speed and timer
         enemy.navMeshAgent.speed = 3.1f;
         timer = time;
-        Debug.Log("I am in the attackState");
     }
     public override void Update()
     {  
         enemy.navMeshAgent.SetDestination(PlayerMove.Instance.transform.position);
-
+        //collision with player = true
         if (enemy.iHitThePlayer == true) {
+            //freeze navmeshAgent aka time out
             enemy.navMeshAgent.velocity = Vector3.zero;
             enemy.navMeshAgent.speed = 1f;
             
@@ -139,12 +139,13 @@ public class AttackState : EnemyState
 
             if (timer <= 0)
             {
-                Debug.Log("slow down");
+                //time out over
                 enemy.GotoChase();
                 enemy.iHitThePlayer = false;
             }
         }
 
+        //if distance player to enemy is below, change speed, change state
         if (Vector3.Distance(enemy.transform.position, PlayerMove.Instance.transform.position) > 5 && enemy.iHitThePlayer == false)
         {
             enemy.GotoChase();

@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.WSA;
+
 
 public class GameFSM
 {
@@ -27,7 +27,7 @@ public class GameFSM
 
     public GameState GetState(GameStateType type)
     {
-        // returns state if it exists, 
+        // if state exists return
         // else null
         if (states.ContainsKey(type))
             return states[type];
@@ -37,8 +37,7 @@ public class GameFSM
 
     public void UpdateState()
     {
-        // if the current state exists, 
-        // update it
+        //update if current state exists
         if (currentState != null)
             currentState.Update();
     }

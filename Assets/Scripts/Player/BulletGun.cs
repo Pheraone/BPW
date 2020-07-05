@@ -19,13 +19,14 @@ public class BulletGun : MonoBehaviour
     // Update is called once per frame
     private void Start()
     {
+        //audio
         audioSource = GetComponent<AudioSource>();
         audioSource.playOnAwake = false;
-        //Make sound 3D
         audioSource.spatialBlend = 1f;
     }
     void Update()
     {
+        //shooting on click
         if (Input.GetMouseButtonDown(0) && Time.time > nextFire)
         {
             nextFire = Time.time + fireRate;
@@ -42,6 +43,7 @@ public class BulletGun : MonoBehaviour
 
             if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, range))
             {
+                //damage enemy
                 Enemy target = hit.transform.GetComponent<Enemy>();
 
                 if (target != null)

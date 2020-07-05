@@ -12,21 +12,24 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private float superSpeed;
     [SerializeField] private float normalSpeed;
     [SerializeField] private KeyCode sprintKey;
-
+    [SerializeField] private float jumpMultiplier;
+    [SerializeField] private KeyCode jumpKey;
 
     private CharacterController charController;
 
     [SerializeField] private AnimationCurve jumpFallOff;
     private float timeInAir = 0.5f;
-    [SerializeField] private float jumpMultiplier;
-    [SerializeField] private KeyCode jumpKey;
+   
 
-    float health = 100;
+    public float fullHealth = 100;
+    public float health;
 
-    public Vector3 firstPos;
+    public Vector3 firstPosition;
 
     private bool isJumping;
     private bool isSprinting = false;
+
+    public GameObject tagObj;
 
     private static PlayerMove instance;
     public static PlayerMove Instance
@@ -42,36 +45,42 @@ public class PlayerMove : MonoBehaviour
 
     private void Awake()
     {
+        //intialize
         charController = GetComponent<CharacterController>();
-        firstPos = transform.position;
-}
+        //setting first position
+        firstPosition = transform.position;
+        health = fullHealth;
+        tagObj = GameObject.FindGameObjectWithTag("EndGameTrigger");
+    }
 
     private void Update()
     {
+        //update player movement
         PlayerMovement();
 
-        if(health <= 0)
-        {
-           //TO DO: GAME OVER
-        }
+  
     }
 
     private void PlayerMovement()
     {
+        //making player move
         float horizInput = Input.GetAxis(horizontalInputName) * movementSpeed;
         float vertInput = Input.GetAxis(verticalInputName) * movementSpeed;
 
+        //changing direction
         Vector3 forwardMovement = transform.forward * vertInput;
         Vector3 rightMovement = transform.right * horizInput;
 
         charController.SimpleMove(forwardMovement + rightMovement);
 
+        //checking for jump and sprint input
         JumpInput();
         SprintInput();
     }
 
     private void SprintInput()
     {
+        //checking for sprint input
           if(Input.GetKeyDown(sprintKey) && !isSprinting)
           {
               isSprinting = false;
@@ -86,6 +95,7 @@ public class PlayerMove : MonoBehaviour
 
     private IEnumerator SprintEvent()
     {
+        //making player sprint
        if(isSprinting == false)
         {
             movementSpeed = superSpeed;
@@ -104,6 +114,7 @@ public class PlayerMove : MonoBehaviour
 
     private void JumpInput()
     {
+        //checking for jump input
         if(Input.GetKeyDown(jumpKey) && !isJumping)
         {
             isJumping = true;
@@ -113,6 +124,7 @@ public class PlayerMove : MonoBehaviour
 
     private IEnumerator JumpEvent()
     {  
+        //making player jump
         charController.slopeLimit = 90.0f;
         
         do
@@ -122,37 +134,40 @@ public class PlayerMove : MonoBehaviour
             timeInAir += Time.deltaTime;
             yield return null;
         } while (!charController.isGrounded && charController.collisionFlags != CollisionFlags.Above );
-
+        //setting slope limit
         charController.slopeLimit = 45.0f;
         isJumping = false;
  
     }
 
     public void DamageTaken(float amount)
-    {
-        Debug.Log(gameObject + "Damage taken" + amount);
+    { 
+        //changing health if taken damage
         health = health - amount;
-        Debug.Log(health);
-
         if(health <= 0)
         {
-            GameManager.Instance.iDied = true;
+            //no health left means losescreen
+            GameManager.Instance.GoToLose();
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void OnTriggerEnter(Collider other)
     {
-        if(other.transform.tag == "EndGameTrigger")
+        //checking if player collides with object with tag
+        if(other.transform.tag == "EndGameWinTrigger")
         {
-            Debug.Log("game had ended");
-            GameManager.Instance.endGame = true;
-            //END GAME SCREEN
+            GameManager.Instance.GoToWin();
+        }
+
+        if (other.transform.tag == "EndGameTrigger")
+        {
+            GameManager.Instance.GoToLose();
         }
     }
     public void ResetPosition()
-    {
-        Debug.Log("I work" + firstPos);
-        transform.position = firstPos;
+    {   
+        //resetting the position to the position of the first frame
+        transform.SetPositionAndRotation(firstPosition, Quaternion.identity);
     }
 
 }

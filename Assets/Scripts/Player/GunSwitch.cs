@@ -18,6 +18,7 @@ public class GunSwitch : MonoBehaviour
     {
         foreach(Transform gun in transform)
         {
+            //switching the gun
             gun.gameObject.SetActive(!gun.gameObject.activeSelf);
         }
     }

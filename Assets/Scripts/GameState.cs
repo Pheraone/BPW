@@ -16,16 +16,21 @@ public class MainMenuState : GameState
 {
     public override void Enter()
     {
+        //showing main menu
         GameManager.Instance.mainMenuObject.SetActive(true);
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+
+        //making sure player can not move or shoot
         Time.timeScale = 0;
         GameManager.Instance.inGameUI.SetActive(false);
         GameManager.Instance.gun.SetActive(false);
+        
     }
 
     public override void Exit()
     {
+        //hiding main menu & enabling player to move
         GameManager.Instance.mainMenuObject.SetActive(false);
         Time.timeScale = 1;
     }
@@ -44,11 +49,14 @@ public class PlayState : GameState
 {
     public override void Enter()
     {
+        //activating things necessary for game
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         Time.timeScale = 1.0f;
         GameManager.Instance.inGameUI.SetActive(true);
         GameManager.Instance.gun.SetActive(true);
+        
+
     }
 
     public override void Exit()
@@ -63,17 +71,6 @@ public class PlayState : GameState
             GameManager.Instance.fsm.GotoState(GameStateType.Pause);
         }
 
-        if (GameManager.Instance.endGame == true)
-        {
-            GameManager.Instance.fsm.GotoState(GameStateType.Win);
-        }
-
-        if (GameManager.Instance.iDied == true)
-        {
-            GameManager.Instance.fsm.GotoState(GameStateType.Lose);
-        }
-
-
     }
 
 
@@ -83,9 +80,12 @@ public class PauseState : GameState
 {
     public override void Enter()
     {
+        //showing pause menu
         GameManager.Instance.pauseObject.SetActive(true);
         GameManager.Instance.inGameUI.SetActive(false);
         GameManager.Instance.gun.SetActive(false);
+
+        //making sure player does not move
         Time.timeScale = 0;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
@@ -93,6 +93,7 @@ public class PauseState : GameState
 
     public override void Exit()
     {
+        //enabling player to move & hiding pause menu
         GameManager.Instance.pauseObject.SetActive(false);
         Time.timeScale = 1;
     }
@@ -108,6 +109,7 @@ public class LoseState : GameState
 {
     public override void Enter()
     {
+        //menu for lose screen
         GameManager.Instance.loseObject.SetActive(true);
         GameManager.Instance.inGameUI.SetActive(false);
         GameManager.Instance.gun.SetActive(false);
@@ -118,7 +120,7 @@ public class LoseState : GameState
 
     public override void Update()
     {
-       
+     
     }
 
     public override void Exit()
@@ -134,7 +136,7 @@ public class WinState : GameState
 {
     public override void Enter()
     {
-
+        //menu for win screen
         GameManager.Instance.winObject.SetActive(true);
         GameManager.Instance.inGameUI.SetActive(false);
         GameManager.Instance.gun.SetActive(false);
@@ -153,7 +155,6 @@ public class WinState : GameState
     {
         GameManager.Instance.winObject.SetActive(false);
         Time.timeScale = 1;
-
     }
 
 }

@@ -33,23 +33,24 @@ public class GameManager : MonoBehaviour
     // state machine
     internal GameFSM fsm;
 
-    //reset thingys
+    //reset vars
     private GameObject[] enemies;
-    
-    public bool endGame = false;
-    public bool iDied = false;
-
+    private GameObject player;
+   
     public void Awake()
     {
- 
-
+        //initialize fsm
         fsm = new GameFSM();
         fsm.Initialize();
 
+        //finding all the enemies
         if(enemies == null)
         {
             enemies = GameObject.FindGameObjectsWithTag("Enemy");
         }
+        //finding the player
+        player = GameObject.FindGameObjectWithTag("Player");
+        
     }
 
     public void Start()
@@ -65,29 +66,29 @@ public class GameManager : MonoBehaviour
 
     public void StartLevel()
     {
+        //resetting the player
+        player.GetComponent<PlayerMove>().ResetPosition();
+        //resetting every enemy in the array
         foreach (GameObject enemy in enemies)
         {
             enemy.SetActive(true);
             enemy.GetComponent<Enemy>().ResetPosition();
             enemy.GetComponent<Enemy>().GotoIdle();
-
         }
-
-        PlayerMove.Instance.ResetPosition();
-
-        endGame = false;
-        iDied = false;
 
     }
 
     public void EndLevel()
     {
-       //GAME RESET
+       //preparing enemies for reset
        foreach (GameObject enemy in enemies)
         {
            
             enemy.SetActive(false);
+            enemy.GetComponent<Enemy>().health = enemy.GetComponent<Enemy>().maxHealth;
         }
+       //resetting the health
+        PlayerMove.Instance.health = PlayerMove.Instance.fullHealth;
     }
 
 
@@ -95,7 +96,6 @@ public class GameManager : MonoBehaviour
     public void GotoMainMenu()
     {
         fsm.GotoState(GameStateType.MainMenu);
-        EndLevel();
     }
 
     public void GotoPlay()
@@ -110,10 +110,14 @@ public class GameManager : MonoBehaviour
    
     public void GoToWin()
     {
+        
         fsm.GotoState(GameStateType.Win);
+      
     }
     public void GoToLose()
     {
+       
         fsm.GotoState(GameStateType.Lose);
+    
     }
 }

@@ -16,9 +16,6 @@ public class EnemyFSM
         this.owner = owner;
         // setup the dictionary for the states to be added
         states = new Dictionary<EnemyStateType, EnemyState>();
-
-        // add all states 
-
     }
 
     public void AddState(EnemyStateType newType, EnemyState newState)
@@ -39,8 +36,7 @@ public class EnemyFSM
 
     public void UpdateState()
     {
-        // if the current state exists, 
-        // update it
+        //update if current state exists
         if (currentState != null)
             currentState.Update();
     }
@@ -52,7 +48,7 @@ public class EnemyFSM
             return;
 
         // if there is a current state, 
-        // end the state properly by calling exit
+        //end it with call exit
         if (currentState != null)
             currentState.Exit();
 

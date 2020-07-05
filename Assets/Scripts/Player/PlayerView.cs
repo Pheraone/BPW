@@ -13,6 +13,7 @@ public class PlayerView : MonoBehaviour
 
     private void Awake()
     {
+        //locking cursor and the xAxis
         LockCursor();
         xAxisClamp = 0.0f;
     }
@@ -29,6 +30,7 @@ public class PlayerView : MonoBehaviour
 
     private void CameraRotation()
     {
+        //Camara moves on mouseinput
         float mouseX = Input.GetAxis(mouseXInput) * mouseSensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis(mouseYInput) * mouseSensitivity * Time.deltaTime;
 

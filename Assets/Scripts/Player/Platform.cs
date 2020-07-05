@@ -8,7 +8,7 @@ public class Platform : MonoBehaviour
     private Rigidbody platformRB;
     public bool frozen = false;
     [SerializeField] GameObject Player;
-    public float lifeTime = 5f;
+    public float lifeTime = 8f;
     private float lifeTimer;
     public bool mustBeDestroyed = false;
 

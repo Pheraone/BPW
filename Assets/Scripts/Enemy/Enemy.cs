@@ -9,11 +9,12 @@ public class Enemy : MonoBehaviour
 
     private Renderer colorchange;
     private Color colorStart;
-    Color colorAttack;
+    
     public bool iGotShot = false;
     public float timeToChange = 0.3f;
     private float timeSinceChange;
-    float health = 100;
+    public float health;
+    public float maxHealth = 100;
     public NavMeshAgent navMeshAgent;
     public float damage;
     public bool iHitThePlayer = false;
@@ -26,24 +27,28 @@ public class Enemy : MonoBehaviour
 
     private void Awake()
     {
+        //initialize fsm 
         fsm = new EnemyFSM();
         fsm.Initialize(this);
 
         navMeshAgent = GetComponent<NavMeshAgent>();
+        speler = PlayerMove.Instance.gameObject;
+        //setting first position
+        firstPos = transform.position;
 
+        //adding states
         fsm.AddState(EnemyStateType.Idle, new IdleState());
         fsm.AddState(EnemyStateType.Chase, new ChaseState());
         fsm.AddState(EnemyStateType.Attack, new AttackState());
-        
 
-        firstPos = transform.position;
+        //setting health
+        health = maxHealth;
     }
 
     private void Start()
     {
+        //making sure AI starts in idle state
         GotoIdle();
-        speler = PlayerMove.Instance.gameObject;
-        
     }
 
     
@@ -51,7 +56,7 @@ public class Enemy : MonoBehaviour
     {
         fsm.UpdateState();
 
-
+        // if enemy got shot change color to red and back
         if (iGotShot == false)
         {
             colorchange = this.gameObject.GetComponent<Renderer>();
@@ -69,9 +74,10 @@ public class Enemy : MonoBehaviour
                 timeSinceChange = 0f;
             }
         }
-
+        //checking if health is 0 or below 
         if (health <= 0 && iGotShot == false)
         {
+            //if true setting enemy to inactive
             gameObject.SetActive(false);
         }
 
@@ -79,6 +85,7 @@ public class Enemy : MonoBehaviour
 
     public void ResetPosition()
     {
+        //resetting the position from the navmeshagent
         navMeshAgent.Warp(firstPos);
     }
 
@@ -101,9 +108,10 @@ public class Enemy : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        //checking if there is collision with the player
         if (collision.gameObject.tag == "Player")
         {
-            Debug.Log("I hit the player");
+            //damaging player
             PlayerMove.Instance.DamageTaken(damage);
             iHitThePlayer = true;
         }
@@ -111,10 +119,9 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(float amount)
     {
-        Debug.Log("Damage taken" + amount);
+        //getting damage
         iGotShot = true;
         health = health - amount;
-        Debug.Log(health);
     }
 }
 
