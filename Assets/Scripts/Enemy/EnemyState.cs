@@ -131,20 +131,26 @@ public class AttackState : EnemyState
         enemy.navMeshAgent.speed = 3.1f;
         timer = time;
         Debug.Log("I am in the attackState");
+
     }
     public override void Update()
     {
         enemy.navMeshAgent.SetDestination(PlayerMove.Instance.transform.position);
         if (enemy.wait == true) {
-            enemy.navMeshAgent.speed = 1f;
-            Debug.Log("going to wait");
+            enemy.navMeshAgent.speed = 0f;
+            /*FREEZE
+            enemy.rbEnemy.velocity = Vector3.zero;
+            enemy.rbEnemy.angularVelocity = Vector3.zero;
+            enemy.rbEnemy.constraints = RigidbodyConstraints.FreezePosition;
+            Debug.Log("going to wait"); */
             timer -= Time.deltaTime;
            // Debug.Log(timer);
             if (timer <= 0)
             {
                 Debug.Log("slow down");
-                enemy.GotoChase();
                 enemy.wait = false;
+                enemy.GotoChase();
+
             }
         }
 

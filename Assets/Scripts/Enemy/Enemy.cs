@@ -20,6 +20,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] public float walkRadius = 20;
     internal Vector3 finalPosition;
     public bool walking = false;
+    public Rigidbody rbEnemy;
 
     public GameObject speler;
     private void Awake()
@@ -38,6 +39,7 @@ public class Enemy : MonoBehaviour
     {
         GotoIdle();
         speler = PlayerMove.Instance.gameObject;
+        rbEnemy = this.gameObject.GetComponent<Rigidbody>();
         
     }
 
@@ -95,8 +97,10 @@ private void Update()
         if (collision.gameObject.tag == "Player")
         {
             Debug.Log("I hit the player");
+            if(wait == false) { 
             PlayerMove.Instance.DamageTaken(damage);
             wait = true;
+            }
         }
     }
 
