@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class BulletGun : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -11,12 +12,17 @@ public class BulletGun : MonoBehaviour
     public float impactForce;
     public float fireRate;
     private float nextFire;
+    public AudioClip piewSound;
 
 
+    AudioSource audioSource;
     // Update is called once per frame
     private void Start()
     {
-
+        audioSource = GetComponent<AudioSource>();
+        audioSource.playOnAwake = false;
+        //Make sound 3D
+        audioSource.spatialBlend = 1f;
     }
     void Update()
     {
@@ -30,9 +36,13 @@ public class BulletGun : MonoBehaviour
         void Shoot()
         {
             RaycastHit hit;
+
+            audioSource.clip = piewSound;
+            audioSource.Play();
+
             if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, range))
             {
-                targetHealth target = hit.transform.GetComponent<targetHealth>();
+                Enemy target = hit.transform.GetComponent<Enemy>();
 
                 if (target != null)
                 {

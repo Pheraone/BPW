@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3327896332107209432}
   - component: {fileID: 3327896332107209433}
   - component: {fileID: 3327896332107209439}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,7 +99,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mouseXInput: Mouse X
   mouseYInput: Mouse Y
-  mouseSensitivity: 48.72
+  mouseSensitivity: 142.68
   playerBody: {fileID: 3327896333042738697}
 --- !u!1 &3327896332597120625
 GameObject:
@@ -114,7 +114,7 @@ GameObject:
   - component: {fileID: 3327896332597120629}
   - component: {fileID: 3327896332597120630}
   - component: {fileID: 3327896332597120631}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: PlatformGun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -208,9 +208,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isShot: 0
-  BulletPrefab: {fileID: 5715116651898549974, guid: 268bbf4af0102924784d51502df7711e,
+  BulletPrefab: {fileID: 7607331545621739562, guid: 9c8f084884fa4214d9c157386c9b4a52,
     type: 3}
-  speed: 152.61
+  speed: 209.72
+  freezePlatform: {fileID: 0}
+  magazine: []
 --- !u!1 &3327896333042738694
 GameObject:
   m_ObjectHideFlags: 0
@@ -225,7 +227,7 @@ GameObject:
   - component: {fileID: 3327896333042738692}
   - component: {fileID: 3327896333042738693}
   - component: {fileID: 3327896333042738696}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -357,8 +359,8 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 1
-      value: 1
+      time: 0.9217529
+      value: 0.65174866
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -368,7 +370,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  jumpMultiplier: 1.31
+  jumpMultiplier: 5
   jumpKey: 32
 --- !u!1 &3327896333354679189
 GameObject:
@@ -383,7 +385,8 @@ GameObject:
   - component: {fileID: 3327896333354679194}
   - component: {fileID: 3327896333354679195}
   - component: {fileID: 3327896333354679192}
-  m_Layer: 0
+  - component: {fileID: 450193322}
+  m_Layer: 10
   m_Name: BulletGun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -477,10 +480,107 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 3327896332107209432}
-  damage: 20
+  damage: 50
   range: 50
   impactForce: 10
   fireRate: 0.26
+  piewSound: {fileID: 8300000, guid: 226d9590b2b2fab4f871c3107f985302, type: 3}
+--- !u!82 &450193322
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3327896333354679189}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &3327896333956710945
 GameObject:
   m_ObjectHideFlags: 0
@@ -491,7 +591,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3327896333956710944}
   - component: {fileID: 3327896333956710951}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Guns
   m_TagString: Untagged
   m_Icon: {fileID: 0}

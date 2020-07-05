@@ -21,9 +21,23 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private float jumpMultiplier;
     [SerializeField] private KeyCode jumpKey;
 
+    float health = 100;
 
+    public bool endGame = false;
     private bool isJumping;
     private bool isSprinting = false;
+
+    private static PlayerMove instance;
+    public static PlayerMove Instance
+    {
+        get
+        {
+            if (instance == null)
+                instance = FindObjectOfType<PlayerMove>();
+
+            return instance;
+        }
+    }
 
     private void Awake()
     {
@@ -33,6 +47,11 @@ public class PlayerMove : MonoBehaviour
     private void Update()
     {
         PlayerMovement();
+
+        if(health <= 0)
+        {
+           //TO DO: GAME OVER
+        }
     }
 
     private void PlayerMovement()
@@ -51,8 +70,6 @@ public class PlayerMove : MonoBehaviour
 
     private void SprintInput()
     {
-        // Try 1
-     
           if(Input.GetKeyDown(sprintKey) && !isSprinting)
           {
               isSprinting = false;
@@ -63,14 +80,6 @@ public class PlayerMove : MonoBehaviour
               isSprinting = true;
               StartCoroutine(SprintEvent());
           }
-
-         /*
-           if (Input.GetKeyDown(sprintKey))
-            {
-                isSprinting = !isSprinting;
-                StartCoroutine(SprintEvent());
-                Debug.Log(isSprinting);
-            } */
     }
 
     private IEnumerator SprintEvent()
@@ -79,14 +88,13 @@ public class PlayerMove : MonoBehaviour
         {
             movementSpeed = superSpeed;
             isSprinting = true;
-            Debug.Log("I am Running");
             
         }
         else
         {
             movementSpeed = normalSpeed;
             isSprinting = false;
-            Debug.Log("I am walking");
+          
             
         }
         yield return isSprinting;
@@ -102,8 +110,7 @@ public class PlayerMove : MonoBehaviour
     }
 
     private IEnumerator JumpEvent()
-    {
-        Debug.Log("I am jumping");  
+    {  
         charController.slopeLimit = 90.0f;
         
         do
@@ -117,5 +124,22 @@ public class PlayerMove : MonoBehaviour
         charController.slopeLimit = 45.0f;
         isJumping = false;
  
+    }
+
+    public void DamageTaken(float amount)
+    {
+        Debug.Log(gameObject + "Damage taken" + amount);
+        health = health - amount;
+        Debug.Log(health);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.transform.tag == "EndGameTrigger")
+        {
+            Debug.Log("game had ended");
+            endGame = true;
+            //END GAME SCREEN
+        }
     }
 }

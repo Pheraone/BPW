@@ -31,7 +31,7 @@ public class targetHealth : MonoBehaviour
 
     void Update()
     {
- 
+
         if (iGotShot == false)
         {
             colorchange = this.gameObject.GetComponent<Renderer>();
@@ -42,7 +42,7 @@ public class targetHealth : MonoBehaviour
             colorchange = this.gameObject.GetComponent<Renderer>();
             colorchange.material.SetColor("_Color", Color.red);
 
-            timeSinceChange += Time.deltaTime; 
+            timeSinceChange += Time.deltaTime;
             if (timeSinceChange >= timeToChange)
             {
                 iGotShot = false;
@@ -50,7 +50,7 @@ public class targetHealth : MonoBehaviour
             }
         }
 
-        if(health <= 0 && iGotShot == false)
+        if (health <= 0 && iGotShot == false)
         {
             Destroy(gameObject);
         }

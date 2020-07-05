@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] internal GameObject mainMenuObject;
     [SerializeField] internal GameObject pauseObject;
     [SerializeField] internal GameObject inGameUI;
+    //[SerializeField] internal GameObject WinObject;
+    //[SerializeField] internal GameObject LoseObject;
     [SerializeField] internal GameObject gun;
 
     // state machine
@@ -57,8 +59,10 @@ public class GameManager : MonoBehaviour
 
     public void EndLevel()
     {
-        
+       
     }
+
+
 
     public void GotoMainMenu()
     {

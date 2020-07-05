@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.WSA;
 
 public class GameFSM
 {
@@ -19,6 +20,7 @@ public class GameFSM
         states.Add(GameStateType.MainMenu, new MainMenuState());
         states.Add(GameStateType.Play, new PlayState());
         states.Add(GameStateType.Pause, new PauseState());
+        
     }
 
     public GameState GetState(GameStateType type)
@@ -60,4 +62,6 @@ public class GameFSM
         // by entering it
         currentState.Enter();
     }
+
+
 }

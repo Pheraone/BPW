@@ -59,8 +59,18 @@ public class PlayState : GameState
     public override void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
+        {
             GameManager.Instance.fsm.GotoState(GameStateType.Pause);
+        }
+           
+      
+        if (PlayerMove.Instance.endGame == true)
+        {
+            GameManager.Instance.fsm.GotoState(GameStateType.Pause);
+        }
     }
+
+
 }
 
 public class PauseState : GameState
