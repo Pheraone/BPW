@@ -23,7 +23,8 @@ public class PlayerMove : MonoBehaviour
 
     float health = 100;
 
-    public bool endGame = false;
+    public Vector3 firstPos;
+
     private bool isJumping;
     private bool isSprinting = false;
 
@@ -42,7 +43,8 @@ public class PlayerMove : MonoBehaviour
     private void Awake()
     {
         charController = GetComponent<CharacterController>();
-    }
+        firstPos = transform.position;
+}
 
     private void Update()
     {
@@ -131,6 +133,11 @@ public class PlayerMove : MonoBehaviour
         Debug.Log(gameObject + "Damage taken" + amount);
         health = health - amount;
         Debug.Log(health);
+
+        if(health <= 0)
+        {
+            GameManager.Instance.iDied = true;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -138,8 +145,14 @@ public class PlayerMove : MonoBehaviour
         if(other.transform.tag == "EndGameTrigger")
         {
             Debug.Log("game had ended");
-            endGame = true;
+            GameManager.Instance.endGame = true;
             //END GAME SCREEN
         }
     }
+    public void ResetPosition()
+    {
+        Debug.Log("I work" + firstPos);
+        transform.position = firstPos;
+    }
+
 }

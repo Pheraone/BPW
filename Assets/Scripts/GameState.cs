@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public enum GameStateType { MainMenu, Play, Pause }
+public enum GameStateType { MainMenu, Play, Pause, Win, Lose }
 
 public abstract class GameState
 { 
@@ -62,12 +62,18 @@ public class PlayState : GameState
         {
             GameManager.Instance.fsm.GotoState(GameStateType.Pause);
         }
-           
-      
-        if (PlayerMove.Instance.endGame == true)
+
+        if (GameManager.Instance.endGame == true)
         {
-            GameManager.Instance.fsm.GotoState(GameStateType.Pause);
+            GameManager.Instance.fsm.GotoState(GameStateType.Win);
         }
+
+        if (GameManager.Instance.iDied == true)
+        {
+            GameManager.Instance.fsm.GotoState(GameStateType.Lose);
+        }
+
+
     }
 
 
@@ -97,3 +103,59 @@ public class PauseState : GameState
             GameManager.Instance.fsm.GotoState(GameStateType.Play);
     }
 }
+
+public class LoseState : GameState
+{
+    public override void Enter()
+    {
+        GameManager.Instance.loseObject.SetActive(true);
+        GameManager.Instance.inGameUI.SetActive(false);
+        GameManager.Instance.gun.SetActive(false);
+        Time.timeScale = 0;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+    }
+
+    public override void Update()
+    {
+       
+    }
+
+    public override void Exit()
+    {
+        GameManager.Instance.loseObject.SetActive(false);
+        Time.timeScale = 1;
+    }
+
+   
+}
+
+public class WinState : GameState
+{
+    public override void Enter()
+    {
+
+        GameManager.Instance.winObject.SetActive(true);
+        GameManager.Instance.inGameUI.SetActive(false);
+        GameManager.Instance.gun.SetActive(false);
+        Time.timeScale = 0;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+    }
+
+    public override void Update()
+    {
+       
+
+    }
+
+    public override void Exit()
+    {
+        GameManager.Instance.winObject.SetActive(false);
+        Time.timeScale = 1;
+
+    }
+
+}
+
+

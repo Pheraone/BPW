@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - EndGameTrigger
+  - Enemy
+  - PlayAgainTrigger
   layers:
   - Default
   - TransparentFX

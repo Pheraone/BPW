@@ -26,12 +26,18 @@ public class GameManager : MonoBehaviour
     [SerializeField] internal GameObject mainMenuObject;
     [SerializeField] internal GameObject pauseObject;
     [SerializeField] internal GameObject inGameUI;
-    //[SerializeField] internal GameObject WinObject;
-    //[SerializeField] internal GameObject LoseObject;
+    [SerializeField] internal GameObject winObject;
+    [SerializeField] internal GameObject loseObject;
     [SerializeField] internal GameObject gun;
 
     // state machine
     internal GameFSM fsm;
+
+    //reset thingys
+    private GameObject[] enemies;
+    
+    public bool endGame = false;
+    public bool iDied = false;
 
     public void Awake()
     {
@@ -39,6 +45,11 @@ public class GameManager : MonoBehaviour
 
         fsm = new GameFSM();
         fsm.Initialize();
+
+        if(enemies == null)
+        {
+            enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        }
     }
 
     public void Start()
@@ -54,12 +65,29 @@ public class GameManager : MonoBehaviour
 
     public void StartLevel()
     {
-        
+        foreach (GameObject enemy in enemies)
+        {
+            enemy.SetActive(true);
+            enemy.GetComponent<Enemy>().ResetPosition();
+            enemy.GetComponent<Enemy>().GotoIdle();
+
+        }
+
+        PlayerMove.Instance.ResetPosition();
+
+        endGame = false;
+        iDied = false;
+
     }
 
     public void EndLevel()
     {
-       
+       //GAME RESET
+       foreach (GameObject enemy in enemies)
+        {
+           
+            enemy.SetActive(false);
+        }
     }
 
 
@@ -80,4 +108,12 @@ public class GameManager : MonoBehaviour
         fsm.GotoState(GameStateType.Pause);
     }
    
+    public void GoToWin()
+    {
+        fsm.GotoState(GameStateType.Win);
+    }
+    public void GoToLose()
+    {
+        fsm.GotoState(GameStateType.Lose);
+    }
 }

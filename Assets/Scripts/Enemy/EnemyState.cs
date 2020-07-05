@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 
-public enum EnemyStateType { Idle, Chase, Attack }
+public enum EnemyStateType { Idle, Chase, Attack}
 
 public abstract class EnemyState
 {
@@ -42,8 +42,8 @@ public class IdleState : EnemyState
             enemy.GotoChase();
         }
         //enemy.gotochase
-        Debug.Log("navmesh pos "+ enemy.navMeshAgent.transform.position);
-        Debug.Log("final pos " + enemy.finalPosition);
+        //Debug.Log("navmesh pos "+ enemy.navMeshAgent.transform.position);
+              //Debug.Log("final pos " + enemy.finalPosition);
         
             if (CheckDestinationReached())
             {
@@ -67,10 +67,10 @@ public class IdleState : EnemyState
         randomDirection += enemy.transform.position;
         NavMeshHit hit;
         NavMesh.SamplePosition(randomDirection, out hit, enemy.walkRadius, 1);
-        Debug.Log("hit is " +  hit);
+        //Debug.Log("hit is " +  hit);
         enemy.finalPosition = hit.position;
         enemy.navMeshAgent.SetDestination(enemy.finalPosition);
-        Debug.Log("final position is " + enemy.finalPosition);
+        //Debug.Log("final position is " + enemy.finalPosition);
         enemy.finalPosition.y = 1f;
     }
     
@@ -86,7 +86,7 @@ public class IdleState : EnemyState
 
 }
 
-public class ChaseState : EnemyState
+    public class ChaseState : EnemyState
 {
     public override void Enter()
     {
@@ -98,9 +98,6 @@ public class ChaseState : EnemyState
     public override void Update()
     {
         enemy.navMeshAgent.SetDestination(PlayerMove.Instance.transform.position);
-        //Debug.Log(PlayerMove.Instance.transform.position);
-        //check distance (groter dan)
-        //enemy.gotoidle
         if (Vector3.Distance(enemy.transform.position, PlayerMove.Instance.transform.position) > 10)
         {
             Debug.Log("Doei");
@@ -112,15 +109,13 @@ public class ChaseState : EnemyState
             enemy.GotoAttack();
         }
 
-     
-        //setdestination -> gameobject?
-        //Player.Instance.transform.position
     }
     public override void Exit()
     {
 
     }
 }
+
 
 public class AttackState : EnemyState
 {
@@ -133,22 +128,24 @@ public class AttackState : EnemyState
         Debug.Log("I am in the attackState");
     }
     public override void Update()
-    {
+    {  
         enemy.navMeshAgent.SetDestination(PlayerMove.Instance.transform.position);
-        if (enemy.wait == true) {
+
+        if (enemy.iHitThePlayer == true) {
+            enemy.navMeshAgent.velocity = Vector3.zero;
             enemy.navMeshAgent.speed = 1f;
-            Debug.Log("going to wait");
+            
             timer -= Time.deltaTime;
-           // Debug.Log(timer);
+
             if (timer <= 0)
             {
                 Debug.Log("slow down");
                 enemy.GotoChase();
-                enemy.wait = false;
+                enemy.iHitThePlayer = false;
             }
         }
 
-        if(Vector3.Distance(enemy.transform.position, PlayerMove.Instance.transform.position) > 5)
+        if (Vector3.Distance(enemy.transform.position, PlayerMove.Instance.transform.position) > 5 && enemy.iHitThePlayer == false)
         {
             enemy.GotoChase();
         }

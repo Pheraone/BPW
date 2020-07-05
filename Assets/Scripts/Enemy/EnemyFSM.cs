@@ -18,6 +18,7 @@ public class EnemyFSM
         states = new Dictionary<EnemyStateType, EnemyState>();
 
         // add all states 
+
     }
 
     public void AddState(EnemyStateType newType, EnemyState newState)

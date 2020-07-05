@@ -16,12 +16,14 @@ public class Enemy : MonoBehaviour
     float health = 100;
     public NavMeshAgent navMeshAgent;
     public float damage;
-    public bool wait = false;
+    public bool iHitThePlayer = false;
     [SerializeField] public float walkRadius = 20;
     internal Vector3 finalPosition;
     public bool walking = false;
 
     public GameObject speler;
+    public Vector3 firstPos;
+
     private void Awake()
     {
         fsm = new EnemyFSM();
@@ -32,6 +34,9 @@ public class Enemy : MonoBehaviour
         fsm.AddState(EnemyStateType.Idle, new IdleState());
         fsm.AddState(EnemyStateType.Chase, new ChaseState());
         fsm.AddState(EnemyStateType.Attack, new AttackState());
+        
+
+        firstPos = transform.position;
     }
 
     private void Start()
@@ -41,11 +46,8 @@ public class Enemy : MonoBehaviour
         
     }
 
-
-
-
-
-private void Update()
+    
+    private void Update()
     {
         fsm.UpdateState();
 
@@ -70,9 +72,14 @@ private void Update()
 
         if (health <= 0 && iGotShot == false)
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
 
+    }
+
+    public void ResetPosition()
+    {
+        navMeshAgent.Warp(firstPos);
     }
 
     public void GotoIdle()
@@ -90,13 +97,15 @@ private void Update()
         fsm.GotoState(EnemyStateType.Attack);
     }
 
+
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Player")
         {
             Debug.Log("I hit the player");
             PlayerMove.Instance.DamageTaken(damage);
-            wait = true;
+            iHitThePlayer = true;
         }
     }
 
